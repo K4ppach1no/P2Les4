@@ -7,8 +7,13 @@
         <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
             <Label Text="Temperature sensor" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
         </Frame>
-        <Label Text="{Binding Temperature}"></Label>
-        <Button Text="Update" x:Name="updateButton"></Button>
+        <StackLayout Orientation="Horizontal" Spacing="10">
+            <Entry WidthRequest="150" x:Name="serverIPEntry"  Keyboard="Telephone" Placeholder="Server IP"></Entry>
+            <Entry WidthRequest="60" x:Name="serverPortEntry" Keyboard="Numeric" Placeholder="Port"></Entry>
+        </StackLayout>
+        <Entry x:Name="messageEntry" Placeholder="Message"></Entry>
+        <Label Text="" x:Name="Temperature"></Label>
+        <Button Text="Update" Clicked="updateButton"></Button>
     </StackLayout>
 
 </ContentPage>
