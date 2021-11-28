@@ -12,7 +12,10 @@
             <Entry WidthRequest="60" x:Name="serverPortEntry" Keyboard="Numeric" Placeholder="Port"></Entry>
         </StackLayout>
         <Entry x:Name="messageEntry" Placeholder="Message"></Entry>
-        <Label Text="" x:Name="Temperature"></Label>
+        <StackLayout Orientation="Horizontal" Spacing="10">
+            <ActivityIndicator Color="#2196F3" x:Name="loadingIndicator" IsRunning="False"/>
+            <Label Text="" x:Name="Temperature"></Label>
+        </StackLayout>
         <Button Text="Update" Clicked="updateButton"></Button>
     </StackLayout>
 

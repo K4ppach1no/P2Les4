@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
 
@@ -10,6 +11,8 @@ namespace P2Les4.Classes
     {
         public string StartClient(string ServerIP, int port , string message)
         {
+            if (!PingHost(ServerIP)) return "Can't reach this IP";
+
             // Data buffer for incoming data.
             byte[] bytes = new byte[1024];
 
@@ -43,11 +46,12 @@ namespace P2Les4.Classes
                     int bytesRec = sender.Receive(bytes);
                     Console.WriteLine("Echoed test = {0}",
                         Encoding.ASCII.GetString(bytes, 0, bytesRec));
+                    string returnstring = Encoding.ASCII.GetString(bytes, 0, bytesRec);
 
                     // Release the socket.  
                     sender.Shutdown(SocketShutdown.Both);
                     sender.Close();
-                    return Encoding.ASCII.GetString(bytes, 0, bytesRec);
+                    return returnstring;
                 }
                 catch (ArgumentNullException ane)
                 {
@@ -71,6 +75,33 @@ namespace P2Les4.Classes
                 Console.WriteLine(e.ToString());
                 return e.ToString();
             }
+        }
+
+        private static bool PingHost(string nameOrAddress)
+        {
+            bool pingable = false;
+            Ping pinger = null;
+
+            try
+            {
+                pinger = new Ping();
+                PingReply reply = pinger.Send(nameOrAddress);
+                pingable = reply.Status == IPStatus.Success;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return pingable;
+            }
+            finally
+            {
+                if (pinger != null)
+                {
+                    pinger.Dispose();
+                }
+            }
+
+            return pingable;
         }
     }
 }
